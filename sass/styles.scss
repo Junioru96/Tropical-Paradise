@@ -1,0 +1,548 @@
+*,
+*::before,
+*::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+
+@use './animations' as *;
+@use './colors' as *;
+@use './components' as *;
+@use './mixins' as *;
+
+
+// BASE
+
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+}
+
+body {
+	font-size: 1.6rem;
+	font-family: 'Open Sans', 'Dancing Script', sans-serif;
+}
+
+
+// NAV
+
+.nav {
+	.burger-btn {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		padding: 1em;
+		background: none;
+		border: 1px solid transparent;
+		cursor: pointer;
+		z-index: 1000;
+
+		&:focus {
+			outline: none;
+			border: 1px solid rgba(255, 255, 255, 0.5);
+			border-radius: 8px;
+		}
+
+		&-box {
+			position: relative;
+			width: 40px;
+			height: 30px;
+		}
+
+		&__bars,
+		&__bars::after,
+		&__bars::before {
+			@include burgerBtn;
+		}
+
+		.black-bars-color,
+		.black-bars-color::before,
+		.black-bars-color::after {
+			background-color: $dark;
+		}
+
+		&__bars {
+			width: 100%;
+
+			&::after {
+				top: 13px;
+				width: 60%;
+			}
+			&::before {
+				top: 26px;
+				width: 30%;
+			}
+		}
+
+		&:hover {
+			.burger-btn__bars::after,
+			.burger-btn__bars::before {
+				width: 100%;
+			}
+		}
+	}
+
+	&-content {
+		position: fixed;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		width: 100%;
+		background-image: $blue-gradient-solid;
+		transform: translateX(100%);
+		z-index: 100;
+		transition: transform 0.5s;
+
+		&--active {
+			transform: translateX(0);
+		}
+
+		&-items {
+			display: flex;
+			flex-direction: column;
+		}
+
+		&__item {
+			position: relative;
+			margin: 0.5em 0;
+			padding: 0.5em 2em;
+			font-size: 2.8rem;
+			font-weight: 300;
+			color: $pure-white;
+			text-decoration: none;
+
+			&::before {
+				position: absolute;
+				content: '';
+				top: 0;
+				left: 0;
+				width: 3px;
+				height: 100%;
+				background-color: $pure-white;
+				transform: scaleY(0);
+				transition: transform 0.3s;
+			}
+
+			&:hover::before {
+				transform: scaleY(1);
+			}
+		}
+	}
+}
+
+
+// HEADER 
+
+
+.header {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	padding: 2em;
+	height: 75vh;
+	text-align: center;
+	color: $pure-white;
+	@include heroImg('../img/hero-small.jpg');
+    background-attachment: scroll;
+
+    &__title {
+        font-family: 'Dancing Script', cursive;
+        font-size: 4.8rem;
+        font-weight: 300;
+    }
+
+    &__text {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    &__btn {
+        margin-top: 2em;
+        padding: 0.8em 1.6em;
+        background-color: $pure-white;
+        color: $dark;
+        border-radius: 8px;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+
+        &::before {
+            background-color: $light-white;
+        }
+    }
+    
+}
+
+
+// MAIN
+
+section {
+	overflow: hidden;
+}
+
+.dreams {
+	&__box {
+		display: flex;
+		flex-direction: column;
+		margin: 2em 0;
+	}
+
+	&__img {
+		width: 100%;
+		margin-bottom: 1em;
+	}
+
+	&__title {
+		margin-bottom: 0.5em;
+	}
+
+	&__text {
+		font-size: 1.4rem;
+	}
+}
+
+.hero-img {
+	position: relative;
+	padding: 10em 2em;
+	@include heroImg('../img/hero-section-small.jpg');
+	text-align: center;
+	color: $pure-white;
+	overflow: hidden;
+
+	&__title {
+		font-family: 'Dancing Script', cursive;
+		margin-bottom: 0.5em;
+		font-size: 4.8rem;
+	}
+
+	&__text {
+		padding: 1em 0;
+	}
+}
+
+.islands {
+	&__card {
+		position: relative;
+		margin: 1em 0;
+		height: 450px;
+		color: $pure-white;
+		text-align: center;
+		perspective: 1000px;
+
+		&:hover {
+			.islands__card-img {
+				transform: rotateY(-180deg);
+				opacity: 0;
+			}
+
+			.islands__card-info {
+				transform: rotateY(0);
+				opacity: 1;
+			}
+		}
+
+		&-img {
+			padding: 2em;
+			height: 100%;
+			border-radius: 8px;
+			background-size: cover;
+			transition: transform 1s, opacity 1s;
+			opacity: 1;
+
+			&--first {
+				background-image: $light-blue-gradient, url('/img/island-one.jpg');
+			}
+			&--second {
+				background-image: $blue-gradient, url('/img/island-two.jpg');
+			}
+			&--third {
+				background-image: $purple-gradient, url('/img/island-three.jpg');
+			}
+
+			&-title {
+				font-family: 'Dancing Script', cursive;
+				font-size: 2.8rem;
+			}
+
+			&-info {
+				position: absolute;
+				bottom: 30px;
+				right: 30px;
+				font-size: 1.8rem;
+
+				i {
+					margin-right: 0.3em;
+				}
+			}
+		}
+
+		&-info {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			background-image: $light-blue-gradient-solid;
+			border-radius: 8px;
+			opacity: 0;
+			transform: rotateY(180deg);
+			transition: transform 1s, opacity 1s;
+
+			&-title {
+				@include islandCardCenter;
+				top: 1.2em;
+				font-family: 'Dancing Script', cursive;
+				font-size: 2.8rem;
+			}
+
+			&-list {
+				margin: 0 auto;
+				width: 70%;
+				list-style: none;
+
+				&-item {
+					padding: 1em;
+					font-size: 1.4rem;
+					border-bottom: 1px solid $pure-white;
+
+					&:last-child {
+						border-bottom: none;
+					}
+				}
+			}
+
+			&-btn {
+				@include islandCardCenter;
+				bottom: 2em;
+				padding: 1em;
+				border-radius: 8px;
+				width: 80%;
+				border: none;
+				background-color: $green-color;
+				cursor: pointer;
+
+				&::before {
+					background-color: $green-color-hover;
+				}
+			}
+		}
+	}
+}
+
+.offers {
+	position: relative;
+	@include heroImg('../img/offers-hero-small.jpg');
+
+	.section-heading {
+		color: $pure-white;
+	}
+
+	&__option {
+		margin: 1em 0;
+		box-shadow: 5px 5px 10px #2e2e2e2e;
+		background-color: $pure-white;
+		overflow: hidden;
+
+		&-img {
+			width: 100%;
+			transition: transform 0.3s;
+
+			&:hover {
+				transform: scale(1.1);
+			}
+		}
+
+		&-info {
+			padding: 2em;
+			background-color: $pure-white;
+			z-index: 10;
+		}
+
+		&-heading {
+			margin-bottom: 0.5em;
+			font-size: 2.4rem;
+			font-weight: 300;
+		}
+
+		&-text {
+			margin-bottom: 0.5em;
+			font-size: 1.3rem;
+			color: $dark;
+		}
+
+		&-btn {
+			margin-top: 1em;
+			padding: 0.8em;
+			width: 100%;
+			color: $pure-white;
+			background-color: $main-color;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+
+			&::before {
+				background-color: $secondary-color;
+			}
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	.reviews.section-padding {
+		padding: 6em 0;
+	}
+}
+
+.reviews {
+	&__box {
+		position: relative;
+		margin: 2em;
+		padding: 2em;
+		border-radius: 8px;
+		box-shadow: 3px 3px 10px #2e2e2e2e;
+		transition: transform 0.3s;
+
+		&-img {
+			position: absolute;
+			top: 8%;
+			left: 75%;
+			transform: translate(-50%, -50%);
+
+			img {
+				width: 80px;
+				height: 80px;
+				object-fit: cover;
+				border-radius: 50%;
+			}
+		}
+
+		&-quote {
+			margin-bottom: 1em;
+			font-size: 3rem;
+			color: $main-color;
+		}
+
+		&-text {
+			margin-bottom: 1em;
+			font-size: 1.4rem;
+			color: $dark;
+		}
+
+		&:hover {
+			transform: scale(1.05);
+		}
+	}
+}
+
+.contact {
+	position: relative;
+	background-color: $light-white;
+
+	.white-block-left {
+		background-color: $dark;
+	}
+
+	&__form,
+	&__form-top {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__form {
+		&-label {
+			margin-bottom: 0.5em;
+			text-transform: uppercase;
+		}
+
+		&-input,
+		&-textarea {
+			@include contactForm;
+		}
+
+		&-textarea {
+			max-width: 100%;
+			width: 100%;
+			min-height: 150px;
+		}
+
+		&-btn {
+			align-self: flex-end;
+			padding: 1em;
+			width: 100%;
+			max-width: 300px;
+			color: $pure-white;
+			border: none;
+			border-radius: 8px;
+			background-color: $main-color;
+			cursor: pointer;
+
+			&::before {
+				background-color: $secondary-color;
+			}
+		}
+	}
+}
+
+// FOOTER
+
+
+.footer {
+	color: $pure-white;
+	background-color: $dark;
+
+	.wrapper {
+		padding: 6em 2em 2em;
+	}
+
+	&__box {
+		font-size: 1.4rem;
+
+		&-desktop {
+			display: none;
+		}
+
+		&-title {
+			margin-bottom: 1em;
+			font-size: 3rem;
+			text-transform: uppercase;
+		}
+
+		&-social {
+			margin: 2em 0 1em;
+		}
+
+		&-link {
+			padding: 0 0.3em;
+			color: $pure-white;
+			font-size: 3.6rem;
+			transform: color 0.3s;
+
+			&:first-child {
+				padding-left: 0;
+			}
+
+			&:hover {
+				color: $light-white;
+			}
+		}
+	}
+
+	&__bottom-text {
+		padding: 2em;
+		text-align: center;
+	}
+
+	&__year {
+		margin: 0 0.3em;
+	}
+}
